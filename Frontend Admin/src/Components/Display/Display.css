@@ -1,0 +1,48 @@
+
+.displayContainer{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height:100%;
+}
+
+
+.displayArea{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    overflow: hidden;
+
+    background: #faf4f2;
+    border: 2px solid #525252;
+    border-radius: 15px;
+
+    min-height: 40vh;
+    width: 70vh;
+
+    transition: 1s;
+    padding: 40px;
+    margin: 20px;
+}
+
+
+.loadingContainer{
+    display: flex;
+    position: relative;
+    justify-content: center;
+    overflow: hidden;
+
+    border-radius: 15px;
+
+    min-height: 20vh;
+    width: 70vh;
+
+    padding: 40px;
+    margin: 20px;
+}
+
+.text{
+    color: rgb(0, 0, 0);
+}
+
+

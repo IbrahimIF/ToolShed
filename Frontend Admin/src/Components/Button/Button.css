@@ -1,0 +1,131 @@
+.buttonContainer{
+  display:flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.inputContainer{
+  display:flex;
+  justify-content: center;
+  justify-content: space-evenly;
+  position: relative;
+  width: 70vh;
+  height: 10vh;
+
+  transition: 1s;
+
+}
+
+.submitButtonContainer{
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 10vh;
+
+  transition: 1s;
+
+}
+
+
+/*button designs*/
+
+button {
+  position: relative;
+  display: inline-block;
+  margin: 15px;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 18px;
+  letter-spacing: 1px;
+  text-decoration: none;
+  color: #000000;
+  background: transparent;
+  cursor: pointer;
+  transition: ease-out 0.5s;
+  border: 2px solid #525252;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 0 #1b1b1b;
+  width: 200px;
+  height: 50px;
+}
+
+button:hover {
+  color: rgb(58, 58, 58);
+  box-shadow: inset 0 -100px 0 0 #9d9d9d;
+  transition: 1s;
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
+
+/*Input Design*/
+
+
+.input-animated {
+  position: relative;
+}
+
+.input {
+  font-size: 1em;
+  padding: 0.6em 1em;
+  border: none;
+  border-radius: 6px;
+  background-color: #dbdbdb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  max-width: 200px;
+  color: #000000;
+}
+
+.input:hover {
+  background-color: #b1b1b1;
+}
+
+.input:focus {
+  outline: none;
+  background-color: #d6d6d6;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.input::placeholder {
+  color: #212121;
+}
+
+.highlight {
+  position: relative;
+  top: 5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #000000;
+  transition: width 0.3s ease;
+}
+
+.input:focus + .highlight {
+  width: 100%;
+}
+
+/* Optional: Animation on focus */
+@keyframes input-focus {
+  from {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.1);
+  }
+
+  to {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.input:focus {
+  animation: input-focus 0.3s ease;
+}
+
+
+
