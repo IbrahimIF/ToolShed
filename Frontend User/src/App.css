@@ -1,42 +1,97 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.container {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+  border-radius: 0.5em;
+  overflow: hidden;
+  box-shadow: 0 0.3em 0.6em rgba(0, 0, 0, 0.2);
+  z-index: -5;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+.container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+        135deg,
+        transparent 0%,
+        transparent 47%,
+        #161616 47%,
+        #2c2c2c 53%,
+        transparent 53%,
+        transparent 100%
+      )
+      0 0/2em 2em,
+    linear-gradient(
+        45deg,
+        #434343 0%,
+        #0a0a0a 47%,
+        transparent 47%,
+        transparent 53%,
+        #434343 53%,
+        #0a0a0a 100%
+      )
+      0 0/2em 2em,
+    linear-gradient(
+        -45deg,
+        #434343 0%,
+        #434343 47%,
+        transparent 47%,
+        transparent 53%,
+        #434343 53%,
+        #434343 100%
+      )
+      0 0/2em 2em,
+    linear-gradient(
+        45deg,
+        transparent 0%,
+        transparent 47%,
+        #000000 47%,
+        #434343 53%,
+        transparent 53%,
+        transparent 100%
+      )
+      1em 1em/2em 2em;
+  opacity: 0.5;
+}
+
+@keyframes patternFloat {
+  0% {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      1em 1em;
   }
-  to {
-    transform: rotate(360deg);
+  100% {
+    background-position:
+      2em 2em,
+      2em 2em,
+      2em 2em,
+      3em 3em;
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+
+
+
+.container::before {
+  animation: patternFloat 2s linear infinite;
 }
 
-.card {
-  padding: 2em;
+
+
+.main-container {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #362f2e, #1a1515);
+  color: #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  padding: 1.5rem;
 }
 
-.read-the-docs {
-  color: #888;
-}
+
