@@ -1,29 +1,22 @@
-.main-container {
-    min-height: 100vh;
-    background: linear-gradient(to bottom right, #362f2e, #1a1515);
-    color: #e0e0e0;
-    font-family: 'Inter', sans-serif;
-    padding: 1.5rem;
-}
 
-.search-container {
+.search-filter-wrapper {
     margin-bottom: 2.5rem;
-    background-color: rgba(41, 37, 36, 0.7);
+    background-color: rgba(27, 60, 83, 0.7);
     backdrop-filter: blur(8px); 
     padding: 1.5rem;
     border-radius: 0.75rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid #57534e;
+    border: 1px solid 456882
 }
 
-.search-filter-box {
+.search-filter-container {
     display: flex;
     flex-direction: column;
     align-items: center; 
     gap: 1rem;
 }
 @media (min-width: 768px) {
-    .search-filter-box {
+    .search-filter-container {
         flex-direction: row;
         gap: 1rem;
     }
@@ -47,19 +40,21 @@
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
     border-radius: 9999px;
-    background-color: #44403c;
-    color: #f5f5f4;
+    background-color: #F9F3EF;
     outline: none;
     box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+    transition: all 0.5s;
 }
 .search-input::placeholder {
-    color: #a8a29e;
+    color: #000000;
 }
+.search-input:hover,
 .search-input:focus {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px #fbbf24;
+  border: 2px solid #4A9DEC;
+  box-shadow: 0px 0px 0px 7px rgb(74, 157, 236, 20%);
+  background-color: white;
 }
+
 
 .search-icon {
     position: absolute;
@@ -74,6 +69,9 @@
 .filter-wrapper {
     position: relative;
     width: 100%;
+    cursor: pointer;
+    transition: 300ms;
+    z-index: 50;
 }
 @media (min-width: 768px) {
     .filter-wrapper {
@@ -90,8 +88,8 @@
     padding-right: 1.5rem;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
-    background-color: #44403c;
-    color: #fcd34d;
+    background-color: #1B3C53;
+    color: #ffffff;
     border-radius: 9999px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     transition-property: all;
@@ -100,7 +98,7 @@
     transform: scale(1);
 }
 .filter-button:hover {
-    background-color: #57534e;
+    background-color: #1B3C53;
     transform: scale(1.05);
 }
 
@@ -115,12 +113,12 @@
     right: 0;
     margin-top: 0.5rem;
     width: 12rem;
-    background-color: #44403c;
+    background-color: #141414;
     border-radius: 0.5rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    z-index: 20;
+    z-index: 50;
 }
 
 .filter-dropdown-item {
@@ -131,11 +129,11 @@
     color: #e0e0e0;
 }
 .filter-dropdown-item:hover {
-    background-color: #57534e;
+    background-color: #000000;
 }
 
 .filter-dropdown-item.active {
-    background-color: #57534e;
+    background-color: #000000;
     font-weight: 600;
 }
 
@@ -147,5 +145,5 @@
 
 .current-filter-highlight {
     font-weight: 600;
-    color: #fcd34d;
+    color: #000000;
 }

@@ -1,4 +1,6 @@
 import PropTypes from 'prop-types';
+import { FaFilter } from "react-icons/fa";
+import { IoMdSearch } from "react-icons/io";
 import './search-bar.css'
 function SearchBar({
     searchTerm,
@@ -10,8 +12,8 @@ function SearchBar({
     categories
 }) {
     return (
-        <section className="search-container">
-            <div className="search-filter-box">
+        <section className="search-filter-wrapper">
+            <div className="search-filter-container">
                 <div className="search-input-wrapper">
                     <input
                         type="text"
@@ -20,7 +22,7 @@ function SearchBar({
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="search-input"
                     />
-                    <div className="search-icon" size={20} />
+                    <IoMdSearch className="search-icon" size={20} />
                 </div>
 
                 <div className="filter-wrapper">
@@ -28,7 +30,7 @@ function SearchBar({
                         onClick={() => setShowFilterOptions(!showFilterOptions)}
                         className="filter-button"
                     >
-                        <div className="filter-icon" size={20} /> Filter by Category
+                        <FaFilter className="filter-icon" size={20} /> Filter by Category
                     </button>
                     {showFilterOptions && (
                         <div className="filter-dropdown">

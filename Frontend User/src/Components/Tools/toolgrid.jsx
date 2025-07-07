@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import './toolgrid.css'
+import { FaMusic } from "react-icons/fa";
 
 function ToolGrid({ filteredTools }) {
     const getCategoryIcon = (category) => {
@@ -14,7 +15,7 @@ function ToolGrid({ filteredTools }) {
             case 'Design': return <div className="tool-card-category-icon" />;
             case 'AI': return <div className="tool-card-category-icon" />;
             case 'Data Analysis': return <div className="tool-card-category-icon" />;
-            case 'Music': return <div className="tool-card-category-icon" />;
+            case 'Music': return <FaMusic className="tool-card-category-icon" />;
             case 'Relaxation': return <div className="tool-card-category-icon" />;
             default: return <div className="tool-card-category-icon" />;
         }
