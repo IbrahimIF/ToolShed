@@ -6,7 +6,7 @@
 ![Static Badge](https://img.shields.io/badge/made_with-React_+_Vite-blue)
 
 ##### **Description**:
-The ToolShed began as a personal project to organize a folder full of bookmarked website tools. It has since evolved into a community-driven platform where creators can showcase, share, and discover the best tools and resources. Whether you're a designer, developer, or creative professional, The ToolShed is your go-to hub for expanding your creative capacity—no supervision required.
+The ToolShed began as a personal project to organize a folder full of bookmarked website tools. It has since evolved into a community-driven platform where creators can showcase, share, and discover the best tools and resources. Whether you're a designer, developer, or creative professional, The ToolShed is your go to hub for expanding your creative capacity—no supervision required.
 
 Inspired by the need for a more dynamic, community-driven platform.
 
