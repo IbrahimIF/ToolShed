@@ -10,16 +10,17 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-
-app.post('/admin/data', async (req, res) => {
+app.post('/admin/data/:collectionName', async (req, res) => {
   try {
+    const { collectionName } = req.params;
     const { id, data } = req.body;
-    if (!id || !data) {
-      return res.status(400).json({ message: 'ID and data are required.' });
+
+    if (!id || !data || !collectionName) {
+      return res.status(400).json({ message: 'Collection name, ID, and data are required.' });
     }
 
-    await db.collection('hashmapInfo').doc(id).set(data);
-    res.status(200).json({ message: 'Data successfully added/updated.' });
+    await db.collection(collectionName).doc(id).set(data);
+    res.status(200).json({ message: `Data successfully added/updated in ${collectionName}.` });
   } catch (error) {
     console.error('Error adding/updating data:', error);
     res.status(500).json({ message: 'Failed to add/update data.', error: error.message });
@@ -28,7 +29,8 @@ app.post('/admin/data', async (req, res) => {
 
 app.get('/user/data', async (req, res) => {
   try {
-    const snapshot = await db.collection('hashmapInfo').get();
+    // This endpoint now specifically fetches from the 'tools' collection
+    const snapshot = await db.collection('tools').get();
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.status(200).json(data);
   } catch (error) {
@@ -37,10 +39,10 @@ app.get('/user/data', async (req, res) => {
   }
 });
 
-
 app.get('/user/data/:id', async (req, res) => {
   try {
-    const docRef = db.collection('hashmapInfo').doc(req.params.id);
+    // This endpoint now specifically fetches from the 'settings' collection for app_data
+    const docRef = db.collection('settings').doc(req.params.id);
     const doc = await docRef.get();
     if (!doc.exists) {
       return res.status(404).json({ message: 'Document not found.' });
@@ -51,7 +53,6 @@ app.get('/user/data/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch single data.', error: error.message });
   }
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
