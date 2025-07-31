@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import SearchBar from './Components/Search/search-bar';
 import ToolGrid from './Components/Tools/toolgrid';
+import ToolShed from './assets/toolshed.png';
 import { tools as initialTools, categories } from './Components/data/toolsData';
 import './App.css'
 
@@ -59,7 +60,7 @@ function App() {
 
   return (
       <div className="main-container">
-          <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center">ToolShed</h1>
+          <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center"> <img src={ToolShed} className="logo" alt="Toolshed logo" /> ToolShed</h1>
           <SearchBar
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
