@@ -2,11 +2,6 @@ import { useState, useEffect } from 'react';
 import './Logo.css';
 import ToolShed from '../../assets/toolshed.png';
 
-/*font awesome*/
-/*import { FontAwesomeIcon } from "@fortawesome/free-brands-svg-icons";*/
-
-
-
 function Display() {
 
 
