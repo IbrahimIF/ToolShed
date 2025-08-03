@@ -3,6 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { db } = require('./firebase');
+const fetch = require('node-fetch');
+const cheerio = require('cheerio');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -10,6 +12,7 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// For admin to add/update data
 app.post('/admin/data/:collectionName', async (req, res) => {
   try {
     const { collectionName } = req.params;
@@ -27,9 +30,9 @@ app.post('/admin/data/:collectionName', async (req, res) => {
   }
 });
 
+// For user frontend to get all tools
 app.get('/user/data', async (req, res) => {
   try {
-    // This endpoint now specifically fetches from the 'tools' collection
     const snapshot = await db.collection('tools').get();
     const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     res.status(200).json(data);
@@ -39,9 +42,9 @@ app.get('/user/data', async (req, res) => {
   }
 });
 
+// For user frontend to get single data
 app.get('/user/data/:id', async (req, res) => {
   try {
-    // This endpoint now specifically fetches from the 'settings' collection for app_data
     const docRef = db.collection('settings').doc(req.params.id);
     const doc = await docRef.get();
     if (!doc.exists) {
@@ -53,6 +56,55 @@ app.get('/user/data/:id', async (req, res) => {
     res.status(500).json({ message: 'Failed to fetch single data.', error: error.message });
   }
 });
+
+// Endpoint for frontend to request page metadata (description scraping)
+app.post('/api/get-page-info', async (req, res) => {
+  const { url } = req.body;
+
+  if (!url) {
+      return res.status(400).json({ message: 'URL is required.' });
+  }
+
+  try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+          console.warn(`Failed to fetch target URL for scraping (${url}): Status ${response.status} - ${response.statusText}`);
+          return res.status(502).json({
+              message: `Could not reach or fetch content from the provided URL: ${response.status} ${response.statusText}`,
+              description: 'No description found (URL inaccessible).'
+          });
+      }
+
+      const html = await response.text();
+
+      const $ = cheerio.load(html);
+
+      let description = $('meta[name="description"]').attr('content') ||
+                        $('meta[property="og:description"]').attr('content') ||
+                        $('meta[itemprop="description"]').attr('content');
+
+      if (description) {
+          description = description.replace(/\s+/g, ' ').trim();
+          if (description.length > 250) {
+              description = description.substring(0, 250) + '...';
+          }
+      } else {
+          description = $('p').first().text().replace(/\s+/g, ' ').trim();
+          if (description.length > 250) {
+              description = description.substring(0, 250) + '...';
+          } else if (description.length < 50) { 
+              description = $('title').text().replace(/\s+/g, ' ').trim();
+          }
+      }
+      res.status(200).json({ description: description || 'No description found.' });
+
+  } catch (error) {
+      console.error(`Error scraping URL ${url}:`, error);
+      res.status(500).json({ message: 'Failed to scrape URL for description.', error: error.message });
+  }
+});
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
