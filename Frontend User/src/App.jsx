@@ -2,53 +2,57 @@ import { useState, useEffect } from 'react'
 import SearchBar from './Components/Search/search-bar';
 import ToolGrid from './Components/Tools/toolgrid';
 import ToolShed from './assets/toolshed.png';
-import { tools as initialTools, categories } from './Components/data/toolsData';
+import { categories } from './Components/data/toolsData';
 import './App.css'
 
-const BACKEND_API_URL = 'http://localhost:3001/api/get-page-info';
+const BACKEND_API_URL = 'https://toolshed-3mss.onrender.com';
+const LOCAL_BACKEND_URL = 'http://localhost:3001';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [showFilterOptions, setShowFilterOptions] = useState(false);
-  const [tools, setTools] = useState(initialTools);
+  const [tools, setTools] = useState([]);
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+
+  const fetchToolsFromUrl = async (baseUrl) => {
+    const url = `${baseUrl}/user/data`;
+    console.log(`Attempting to fetch tools from: ${url}`);
+    const response = await fetch(url);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`HTTP error! Status: ${response.status}, Body: ${errorText} from ${url}`);
+    }
+    return await response.json();
+  };
 
   useEffect(() => {
-      const fetchDescriptions = async () => {
-          const updatedTools = await Promise.all(
-              tools.map(async (tool) => {
-                  const primaryUrl = tool.links && tool.links.length > 0 ? tool.links[0].url : null;
+    const fetchTools = async () => {
+      setLoading(true);
+      setError(null);
 
-                  if ((!tool.description || tool.description.trim() === '') && primaryUrl) {
-                      try {
-                          const response = await fetch(BACKEND_API_URL, {
-                              method: 'POST',
-                              headers: { 'Content-Type': 'application/json' },
-                              body: JSON.stringify({ url: primaryUrl }),
-                          });
+      try {
+        const data = await fetchToolsFromUrl(BACKEND_API_URL);
+        setTools(data);
+        console.log('Successfully fetched tools from Render.com');
+      } catch (renderError) {
+        console.warn('Failed to fetch from Render.com, attempting localhost:', renderError);
+        try {
+          const data = await fetchToolsFromUrl(LOCAL_BACKEND_URL);
+          setTools(data);
+          console.log('Successfully fetched tools from localhost');
+        } catch (localhostError) {
+          console.error('Failed to fetch from both Render.com and localhost:', localhostError);
+          setError('Failed to load tools. Please check your internet connection or server status.');
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
 
-                          if (!response.ok) {
-                              const errorText = await response.text();
-                              throw new Error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
-                          }
-                          const data = await response.json();
-                          return { ...tool, description: data.description || 'No description found.' };
-                      } catch (error) {
-                          console.error(`Error fetching description for ${tool.name} (${primaryUrl}):`, error);
-                          return { ...tool, description: `Failed to load description: ${error.message}` };
-                      }
-                  }
-                  return tool;
-              })
-          );
-
-          if (JSON.stringify(updatedTools) !== JSON.stringify(tools)) {
-              setTools(updatedTools);
-          }
-      };
-
-      fetchDescriptions();
-  }, [tools]);
+    fetchTools();
+  }, []);
 
   const filteredTools = tools.filter(tool => {
       const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -60,7 +64,7 @@ function App() {
 
   return (
       <div className="main-container">
-          <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center"> <img src={ToolShed} className="logo" alt="Toolshed logo" /> ToolShed</h1>
+          <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center"> <img src={ToolShed} className="logo" alt="Toolshed logo" /> ToolShed </h1>
           <SearchBar
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
@@ -70,7 +74,11 @@ function App() {
               setShowFilterOptions={setShowFilterOptions}
               categories={categories}
           />
+        {loading && <p className="loading-message">Loading tools...</p>}
+        {error && <p className="error-message">{error}</p>}
+        {!loading && !error && (
           <ToolGrid filteredTools={filteredTools} />
+        )}
       </div>
   );
 }

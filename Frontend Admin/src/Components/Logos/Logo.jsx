@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import './Logo.css';
 import ToolShed from '../../assets/toolshed.png';
 
