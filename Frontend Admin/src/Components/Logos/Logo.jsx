@@ -1,5 +1,5 @@
 import './Logo.css';
-import ToolShed from '../../assets/toolshed.png';
+import Logo from '../../assets/logo.png';
 
 function Display() {
 
@@ -7,7 +7,7 @@ function Display() {
   return (
     <> 
     <div className='logo-Container'>
-      <img src={ToolShed} className="logo toolshed" alt="Toolshed logo" />
+      <img src={Logo} className="logo toolshed" alt="Toolshed logo" />
     </div>
     </>
   );
