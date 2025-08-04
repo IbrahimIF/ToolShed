@@ -9,10 +9,13 @@
 .inputContainer{
   display: flex;
   justify-content: space-between;
+  align-items: center;
   position: relative;
   width: 70vh;
   transition: 1s;
   flex-wrap: wrap;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .submitButtonContainer{
@@ -71,15 +74,16 @@ button:active {
   padding: 0.6em 1em;
   border: none;
   border-radius: 6px;
-  background-color: #dbdbdb;
+  background-color: #fffffe;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  max-width: 200px;
+  width: 440px;
   color: #000000;
+  border: 1px solid #525252;
 }
 
 .input:hover {
-  background-color: #b1b1b1;
+  background-color: #e8e8e8;
 }
 
 .input:focus {
@@ -89,7 +93,7 @@ button:active {
 }
 
 .input::placeholder {
-  color: #212121;
+  color: #999998;
 }
 
 .highlight {
@@ -123,10 +127,20 @@ button:active {
   animation: input-focus 0.3s ease;
 }
 
-
+.descriptionContainer{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100px;
+  padding: 10px;
+  width: 80%;
+  border: 1px solid #525252;
+  border-radius: 10px;
+}
 
 .category-select-container {
   margin-bottom: 1rem;
+  display: flex;
 }
 
 .category-label {
@@ -140,6 +154,7 @@ button:active {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
+  justify-content: center;
 }
 
 .category-pill {

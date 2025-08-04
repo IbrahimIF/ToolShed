@@ -169,7 +169,6 @@ function Button({ onDataSent }) {
                   Fetching description...
                 </div>
               ) : showManualDescriptionInput ? (
-                <div className="input-Animated">
                   <textarea
                     className="input"
                     rows="4"
@@ -178,7 +177,6 @@ function Button({ onDataSent }) {
                     onChange={(e) => setDescription(e.target.value)}
                     required
                   ></textarea>
-                </div>
               ) : (
                 <div className="fetched-description">
                   {description || 'Description will be fetched after entering a URL.'}
@@ -187,7 +185,6 @@ function Button({ onDataSent }) {
             </div>
 
             <div className="category-select-container">
-              <label className="category-label">Categories:</label>
               <div className="category-pills-container">
                 {predefinedCategories.map((category) => (
                   <button

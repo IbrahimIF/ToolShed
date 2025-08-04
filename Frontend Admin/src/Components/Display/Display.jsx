@@ -57,11 +57,28 @@ function Display({ isSent, setIsSent }) {
           ) : data.length === 0 ? (
             <p className="no-tools-found">No tools found in the database.</p>
           ) : (
-            <ul className="text">
+            <ul>
+              <div className="toolListHeader">
+                <span className="headerItem">Name</span>
+                <span className="headerItem">Link</span>
+                <span className="headerItem">Categories</span>
+              </div>
               {data.map(item => (
-                <li key={item.id}>
-                  <strong>ID:</strong> {item.id}, <strong>Name:</strong> {item.name}
-                </li>
+                <div className="toolCard" key={item.id}>
+                  <div className="toolInfo">
+                    <h4>{item.name}</h4>
+                  </div>
+                  <div className="toolInfo">
+                    <a href={item.links[0]?.url} target="_blank" rel="noopener noreferrer">
+                      {item.links[0]?.url}
+                    </a>
+                  </div>
+                  <div className="categoryPills">
+                    {item.category.slice(0,2).map(cat => (
+                      <span key={cat} className="categoryPill">{cat}</span>
+                    ))}
+                  </div>
+                </div>
               ))}
             </ul>
           )}
