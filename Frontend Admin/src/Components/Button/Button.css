@@ -17,6 +17,12 @@
   flex-direction: column;
   gap: 15px;
 }
+.input-animated-container{
+  display: flex;
+  flex-direction: row;
+  justify-content:space-evenly;
+  width: 81%;
+}
 
 .submitButtonContainer{
   display: flex;
@@ -46,14 +52,14 @@ button {
   transition: ease-out 0.5s;
   border: 2px solid #525252;
   border-radius: 10px;
-  box-shadow: inset 0 0 0 0 #1b1b1b;
+  box-shadow: inset 0 0 0 0 #a7a7a7;
   width: 200px;
   height: 50px;
 }
 
 button:hover {
-  color: rgb(58, 58, 58);
-  box-shadow: inset 0 -100px 0 0 #9d9d9d;
+  color: rgb(255, 255, 255);
+  box-shadow: inset 0 -100px 0 0 #555555;
   transition: 1s;
 }
 
@@ -61,6 +67,16 @@ button:active {
   transform: scale(0.9);
 }
 
+.submitButtonContainer button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.post-button{
+  height: 45px;
+}
 
 /*Input Design*/
 
@@ -77,7 +93,7 @@ button:active {
   background-color: #fffffe;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  width: 440px;
+  width: 340px;
   color: #000000;
   border: 1px solid #525252;
 }
@@ -138,43 +154,102 @@ button:active {
   border-radius: 10px;
 }
 
-.category-select-container {
-  margin-bottom: 1rem;
+
+.dropdown-button {
+  width: 100%;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #fffffe;
+  border: 1px solid #525252;
+  border-radius: 0.5rem;
+  color: #000000;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s, border-color 0.2s;
 }
 
-.category-label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  color: #f3f4f6;
+.dropdown-button:hover {
+  background-color: #b7b7b7;
+}
+
+.dropdown-icon {
+  transition: transform 0.3s ease;
+}
+
+.dropdown-icon.rotated {
+  transform: rotate(180deg);
 }
 
 .category-pills-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
-  justify-content: center;
+  padding: 0.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.category-pills-container::-webkit-scrollbar {
+  display: none;
+}
+
+.category-pills-container.dropdown-menu {
+  position: absolute;
+  top: calc(100% + -3rem);
+  left: 25%;
+  z-index: 10;
+  background-color: #fffffe;
+  border: 1px solid #525252;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .category-pill {
-  padding: 0.5rem 1rem;
-  border: 1px solid #4a5568;
-  border-radius: 9999px; /* This makes it a pill shape */
-  background-color: #2d3748;
-  color: #a0aec0;
+  padding: 0.75rem 1rem;
+  border: 1px solid #000000;
+  border-radius: 9999px;
+  background-color: #fffdfd;
+  color: #000000;
   cursor: pointer;
+  white-space: nowrap;
   transition: all 0.2s ease-in-out;
+  text-align: center;
 }
 
 .category-pill:hover {
   background-color: #4a5568;
-  color: #f3f4f6;
+  color: #e2e8f0;
 }
 
 .category-pill.selected {
-  background-color: #38a169; /* A green color to indicate selection */
+  background-color: #38a169;
   border-color: #38a169;
   color: #fff;
   font-weight: bold;
+}
+
+
+
+.post-button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  color: white;
+  background-color: #314a7f;
+  border: 1px solid #000000;
+  border-radius: 25px;
+}
+
+
+.post-button:hover{
+  color:black;
+  background-color: #5981d6;
+  transition: 0.5s;
 }

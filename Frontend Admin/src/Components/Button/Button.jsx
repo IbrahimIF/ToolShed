@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../../config';
 import './Button.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUpload }  from '@fortawesome/free-solid-svg-icons';
+import { FaUpload, FaImage } from 'react-icons/fa';
+import { IoChevronDown } from "react-icons/io5";
 
 const predefinedCategories = [
   'Productivity',
@@ -18,6 +18,7 @@ function Button({ onDataSent }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isFetchingDescription, setIsFetchingDescription] = useState(false);
@@ -132,36 +133,42 @@ function Button({ onDataSent }) {
       }
     });
   };
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
   
   return (
     <>
       <div className="buttonContainer">
         <form onSubmit={handleSubmit}>
           <div className="inputContainer">
-            <div className="input-Animated">
-              <input
-                type="text"
-                className="input"
-                placeholder="Tool Name (e.g., Notion)"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-              <div className="highlight"></div>
+            <div className="input-animated-container">
+              <div className="input-Animated">
+                <input
+                  type="text"
+                  className="input"
+                  placeholder="Tool Name (e.g., Notion)"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+                <div className="highlight"></div>
+              </div>
+  
+              <div className="input-Animated">
+                <input
+                  type="url"
+                  className="input"
+                  placeholder="Official Site URL"
+                  value={linkUrl}
+                  onChange={(e) => setLinkUrl(e.target.value)}
+                  required
+                />
+                <div className="highlight"></div>
+              </div>
             </div>
-
-            <div className="input-Animated">
-              <input
-                type="url"
-                className="input"
-                placeholder="Official Site URL"
-                value={linkUrl}
-                onChange={(e) => setLinkUrl(e.target.value)}
-                required
-              />
-              <div className="highlight"></div>
-            </div>
-
             <div className="descriptionContainer">
               <label className="description-label">Description:</label>
               {isFetchingDescription ? (
@@ -184,35 +191,59 @@ function Button({ onDataSent }) {
               )}
             </div>
 
-            <div className="category-select-container">
-              <div className="category-pills-container">
-                {predefinedCategories.map((category) => (
-                  <button
-                    key={category}
-                    type="button"
-                    className={`category-pill ${selectedCategories.includes(category) ? 'selected' : ''}`}
-                    onClick={() => handleCategoryClick(category)}
-                  >
-                    {category}
-                  </button>
-                ))}
+            <div className="dropdown-app-container">
+              <div className="category-select-container">
+                <button 
+                  onClick={toggleDropdown}
+                  className="dropdown-button"
+                  type="button"
+                >
+                  <span>Category</span>
+                  &nbsp;
+                  <IoChevronDown className={`dropdown-icon ${isDropdownOpen ? 'rotated' : ''}`} />
+                </button>
+        
+                {isDropdownOpen && (
+                  <div className="category-pills-container dropdown-menu">
+                    {predefinedCategories.map((category) => (
+                      <button
+                        key={category}
+                        type="button"
+                        className={`category-pill ${selectedCategories.includes(category) ? 'selected' : ''}`}
+                        onClick={() => handleCategoryClick(category)}
+                      >
+                        {category}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
-
-            <div className="input-Animated">
-              <input
-                type="url"
-                className="input"
-                placeholder="Image URL (postimage)"
-                value={imageUrl}
-                onChange={(e) => setImageUrl(e.target.value)}
-              />
-              <div className="highlight"></div>
+        
+            <div className="input-animated-container">
+              <div className="input-Animated">
+                <input
+                  type="url"
+                  className="input"
+                  placeholder="Image URL (postimage)"
+                  value={imageUrl}
+                  onChange={(e) => setImageUrl(e.target.value)}
+                />
+                <div className="highlight"></div>
+              </div>
+              <a
+                href="https://postimages.org/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="post-button"
+              >
+                <FaImage /> &nbsp; PostImages
+              </a>
             </div>
           </div>
           <div className="submitButtonContainer">
             <button type="submit">
-              <FontAwesomeIcon icon={faUpload} /> &nbsp; Add New Tool
+              <FaUpload /> &nbsp; Add New Tool
             </button>
           </div>
           {uploadStatus && <p className="upload-status">{uploadStatus}</p>}
