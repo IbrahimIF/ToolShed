@@ -12,6 +12,9 @@ const predefinedCategories = [
   'Design',
   'Finance',
   'Education',
+  'Utilities',
+  'Fun',
+  'Development',
 ];
 
 function Button({ onDataSent }) {
