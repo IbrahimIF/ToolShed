@@ -14,7 +14,8 @@ function App() {
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true); 
-  const [error, setError] = useState(null); 
+  const [error, setError] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
 
   const fetchToolsFromUrl = async (baseUrl) => {
     const url = `${baseUrl}/user/data`;
@@ -62,6 +63,24 @@ function App() {
       return matchesSearch && matchesCategory;
   });
 
+
+  const handleScroll = () => {
+    const offset = window.scrollY;
+    if (offset > 150) {
+        setScrolled(true);
+    } else {
+        setScrolled(false);
+    }
+};
+
+useEffect(() => {
+  window.addEventListener('scroll', handleScroll);
+  return () => {
+      window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+
+
   return (
       <div className="main-container">
           <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center"> <img src={ToolShed} className="logo" alt="Toolshed logo" /> ToolShed </h1>
@@ -73,6 +92,7 @@ function App() {
               showFilterOptions={showFilterOptions}
               setShowFilterOptions={setShowFilterOptions}
               categories={categories}
+              isScrolled={scrolled}
           />
         {loading && <p className="loading-message">Loading tools...</p>}
         {error && <p className="error-message">{error}</p>}

@@ -6,6 +6,11 @@
     width: 100%;
     padding: 0 1rem;
 }
+@media (max-width: 630px) {
+    .tool-grid {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+}
 @media (min-width: 640px) {
     .tool-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -23,56 +28,69 @@
 }
 
 .ToolCard{
-    background-image: linear-gradient(163deg,rgb(0, 6, 86) 0%,rgb(33, 0, 153) 100%);
-    border-radius: 12px;
     transition: all .3s;
+    background: #fffffe;
+    border-radius: 10px;
+    transition: border-radius 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .ToolCard:hover{
     box-shadow: 0px 0px 30px 1px rgba(73, 73, 73, 0.3);
 }
 
-.tool-card {
+.card {
     width: 100%;
     height: 100%;
-    background-color: #456882;
     border-radius: 10px;
     transition: all 0.2s;
-    color: white;
+    color: rgb(0, 0, 0);
     overflow: hidden;
+    background-color: #ffffff;
     display: flex;
     flex-direction: column;
+    box-shadow: inset 0 -3em 3em rgba(0,0,0,0.1),
+    0 0  0 2px rgb(190, 190, 190),
+    0.3em 0.3em 1em rgba(0,0,0,0.3);
 }
 
-.tool-card:hover {
+.card:hover {
     transform: translateY(-5px);
 }
 
+.card-image-wrapper{
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+}
 
 
-.tool-card-image {
+.card-image {
+    position: relative;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
     border-radius: 0.5rem;
+    border: 1px solid #9a9a9a;
+    z-index: 50;
 }
 
-.tool-card-content {
+.card-content {
     padding: 1rem;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
 }
 
-.tool-card-title {
+.card-title {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #ffffff;
+    color: #000000;
     margin-bottom: 0.5rem;
 }
 
-.tool-card-description {
-    color: #d6d3d1;
+.card-description {
+    color: #575757;
     font-size: 0.875rem;
     line-height: 1.4;
     flex-grow: 1;
@@ -84,25 +102,26 @@
     text-overflow: ellipsis;
 }
 
-.tool-card-category-list {
+.card-category-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: auto;
 }
 
-.tool-card-category-item {
+.card-category-item {
     display: inline-flex;
     align-items: center;
-    background-color: #44403c;
-    color: #e0e0e0;
+    background-color: #b8b8b8;
+    border: 0.5px solid #9a9a9a;
+    color: #ffffff;
     padding: 0.25rem 0.75rem;
     border-radius: 9999px;
     font-size: 0.75rem;
     white-space: nowrap;
 }
 
-.tool-card-category-icon {
+.card-category-icon {
     width: 1rem;
     height: 1rem;
     margin-right: 0.25rem;

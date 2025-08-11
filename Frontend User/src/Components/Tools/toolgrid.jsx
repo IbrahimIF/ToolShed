@@ -1,25 +1,7 @@
 import PropTypes from 'prop-types';
 import './toolgrid.css'
-import { FaMusic } from "react-icons/fa";
 
 function ToolGrid({ filteredTools }) {
-    const getCategoryIcon = (category) => {
-        switch (category) {
-            case 'Productivity': return <div className="tool-icon" />;
-            case 'Creativity': return <div  className="tool-icon" />;
-            case 'Learning': return <div  className="tool-icon" />;
-            case 'Utilities': return <div  className="tool-icon" />;
-            case 'Fun': return <div  className="tool-icon" />;
-            case 'Development': return <div  className="tool-icon" />;
-            case 'Writing': return <div className="tool-card-category-icon" />;
-            case 'Design': return <div className="tool-card-category-icon" />;
-            case 'AI': return <div className="tool-card-category-icon" />;
-            case 'Data Analysis': return <div className="tool-card-category-icon" />;
-            case 'Music': return <FaMusic className="tool-card-category-icon" />;
-            case 'Relaxation': return <div className="tool-card-category-icon" />;
-            default: return <div className="tool-card-category-icon" />;
-        }
-    };
 
     return (
         <section className="tool-grid">
@@ -30,26 +12,25 @@ function ToolGrid({ filteredTools }) {
                     href={tool.links && tool.links.length > 0 ? tool.links[0].url : '#'}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="tool-card"
+                    className="card"
                 >
-                    <div className="tool-card-image-wrapper">
+                    <div className="card-image-wrapper">
                         <img
                             src={tool.imageUrl}
                             alt={tool.name}
-                            className="tool-card-image"
+                            className="card-image"
                             onError={(e) => { e.target.onerror = null; e.target.src =  `https://placehold.co/100x100/4A3F35/F0EAD6?text=${tool.name.substring(0, 1)}`; }}
                         />
                     </div>
-                    <div className="tool-card-content">
-                        <h3 className="tool-card-title">{tool.name}</h3>
-                        <p className="tool-card-description">
+                    <div className="card-content">
+                        <h3 className="card-title">{tool.name}</h3>
+                        <p className="card-description">
                             {tool.description || 'No description available.'}
                         </p>
                         {tool.category && tool.category.length > 0 && (
-                            <div className="tool-card-category-list">
+                            <div className="card-category-list">
                                 {tool.category.map((cat, index) => (
-                                    <span key={index} className="tool-card-category-item">
-                                        {getCategoryIcon(cat)}
+                                    <span key={index} className="card-category-item">
                                         {cat}
                                     </span>
                                 ))}

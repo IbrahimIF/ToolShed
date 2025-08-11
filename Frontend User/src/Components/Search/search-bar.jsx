@@ -9,10 +9,11 @@ function SearchBar({
     setSelectedCategory,
     showFilterOptions,
     setShowFilterOptions,
-    categories
+    categories,
+    isScrolled
 }) {
     return (
-        <section className="search-filter-wrapper">
+        <section className={`search-filter-wrapper ${isScrolled ? 'scrolled' : ''}`}>
             <div className="search-filter-container">
                 <div className="search-input-wrapper">
                     <input
@@ -68,6 +69,7 @@ SearchBar.propTypes = {
     showFilterOptions: PropTypes.bool.isRequired,
     setShowFilterOptions: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+    isScrolled: PropTypes.bool.isRequired,
 };
 
 export default SearchBar;

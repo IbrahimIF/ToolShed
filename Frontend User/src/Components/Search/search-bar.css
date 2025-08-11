@@ -1,12 +1,25 @@
 
 .search-filter-wrapper {
+    position: relative;
     margin-bottom: 2.5rem;
-    background-color: rgba(27, 60, 83, 0.7);
-    backdrop-filter: blur(8px); 
-    padding: 1.5rem;
+    background-color: rgba(85, 85, 85, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 0.2rem;
     border-radius: 0.75rem;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    border: 1px solid 456882
+    border: 1px solid #8b8b8b;
+    transition: all 0.3s ease-in-out;
+    z-index: 9999;
+}
+
+/* New styles for when the bar is scrolled and fixed to the top */
+.search-filter-wrapper.scrolled {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    max-width: 1310px;
+    height: 3rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
 
 .search-filter-container {
@@ -88,7 +101,7 @@
     padding-right: 1.5rem;
     padding-top: 0.75rem;
     padding-bottom: 0.75rem;
-    background-color: #1B3C53;
+    background-color: #1d1d1d;
     color: #ffffff;
     border-radius: 9999px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -118,7 +131,6 @@
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    z-index: 50;
 }
 
 .filter-dropdown-item {
