@@ -3,8 +3,11 @@
 }
 
 .main-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   min-height: 100vh;
-  background-color: #fff7f1;
+  background-color: #fffffe;
   color: #000000;
   font-family: 'Inter', sans-serif;
   padding: 1.5rem;
