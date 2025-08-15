@@ -10,7 +10,6 @@ const LOCAL_BACKEND_URL = 'http://localhost:3001';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedType, setSelectedType] = useState('All');
   const [showFilterOptions, setShowFilterOptions] = useState(false);
   const [categories, setCategories] = useState([]);
   const [types, setTypes] = useState([]);
@@ -114,7 +113,7 @@ useEffect(() => {
       const matchesCategoryByFilter = selectedCategory === 'All' ||
                                     (tool.category && tool.category.includes(selectedCategory));
 
-      const matchesTypeBySearch = tool.types.some(type => type.toLowerCase().includes(lowerSearchTerm));
+      const matchesTypeBySearch = tool.types && tool.type.some(type => type.toLowerCase().includes(lowerSearchTerm));
 
       return matchesCategoryByFilter && (matchesSearch || matchesCategoryBySearch || matchesTypeBySearch);
   });
@@ -128,8 +127,6 @@ useEffect(() => {
               setSearchTerm={setSearchTerm}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
-              selectedType={selectedType}
-              setSelectedType={setSelectedType}
               showFilterOptions={showFilterOptions}
               setShowFilterOptions={setShowFilterOptions}
               categories={categories}

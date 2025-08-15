@@ -24,8 +24,10 @@ function ToolGrid({ filteredTools }) {
                     </div>
                     <div className="card-content">
                         <h3 className="card-title">{tool.name}</h3>
-                        {tool.types && tool.types.length > 0 && (
-                                <span className="card-type-title"> ({tool.types[0]})</span>
+                        {tool.types && tool.types.length > 0 ? (
+                            <span className="card-type-title"> ({tool.types[0]})</span>
+                        ) : (
+                            <span className="card-type-title"> (Empty)</span>
                         )}
                         <p className="card-description">
                             {tool.description || 'No description available.'}

@@ -7,12 +7,9 @@ function SearchBar({
     setSearchTerm,
     selectedCategory,
     setSelectedCategory,
-    selectedType,
-    setSelectedType,
     showFilterOptions,
     setShowFilterOptions,
     categories,
-    types,
     isScrolled
 }) {
     return (
@@ -69,8 +66,6 @@ SearchBar.propTypes = {
     setSearchTerm: PropTypes.func.isRequired,
     selectedCategory: PropTypes.string.isRequired,
     setSelectedCategory: PropTypes.func.isRequired,
-    selectedType: PropTypes.string.isRequired,
-    setSelectedType: PropTypes.func.isRequired,
     showFilterOptions: PropTypes.bool.isRequired,
     setShowFilterOptions: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
