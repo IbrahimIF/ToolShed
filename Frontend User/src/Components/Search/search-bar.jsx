@@ -7,9 +7,12 @@ function SearchBar({
     setSearchTerm,
     selectedCategory,
     setSelectedCategory,
+    selectedType,
+    setSelectedType,
     showFilterOptions,
     setShowFilterOptions,
     categories,
+    types,
     isScrolled
 }) {
     return (
@@ -18,7 +21,7 @@ function SearchBar({
                 <div className="search-input-wrapper">
                     <input
                         type="text"
-                        placeholder="Search tools by name, description, or tags..."
+                        placeholder="Search tools by name, description, or type..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
                         className="search-input"
@@ -66,9 +69,12 @@ SearchBar.propTypes = {
     setSearchTerm: PropTypes.func.isRequired,
     selectedCategory: PropTypes.string.isRequired,
     setSelectedCategory: PropTypes.func.isRequired,
+    selectedType: PropTypes.string.isRequired,
+    setSelectedType: PropTypes.func.isRequired,
     showFilterOptions: PropTypes.bool.isRequired,
     setShowFilterOptions: PropTypes.func.isRequired,
     categories: PropTypes.arrayOf(PropTypes.string).isRequired,
+    types: PropTypes.arrayOf(PropTypes.string).isRequired,
     isScrolled: PropTypes.bool.isRequired,
 };
 

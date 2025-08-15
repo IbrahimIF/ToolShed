@@ -4,24 +4,15 @@ import './Button.css';
 import { FaUpload, FaImage } from 'react-icons/fa';
 import { IoChevronDown } from "react-icons/io5";
 
-const predefinedCategories = [
-  'Productivity',
-  'Writing',
-  'AI',
-  'Web Development',
-  'Design',
-  'Finance',
-  'Education',
-  'Utilities',
-  'Fun',
-  'Development',
-];
-
 function Button({ onDataSent }) {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [types, setTypes] = useState([]);
+  const [isCategoryDropdownOpen, setIsCategoryDropdownOpen] = useState(false);
+  const [isTypeDropdownOpen, setIsTypeDropdownOpen] = useState(false);
   const [linkUrl, setLinkUrl] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [isFetchingDescription, setIsFetchingDescription] = useState(false);
@@ -31,6 +22,35 @@ function Button({ onDataSent }) {
   const BACKEND_ADMIN_API_BASE_URL = `${API_BASE_URL}/admin/data`;
   const BACKEND_FETCH_DESCRIPTION_URL = `${API_BASE_URL}/admin/get-page-info`;
   
+
+  useEffect(() => {
+    const fetchLists = async () => {
+        try {
+            const categoriesUrl = `${API_BASE_URL}/api/lists/categories`;
+            const typesUrl = `${API_BASE_URL}/api/lists/types`;
+            const [categoriesResponse, typesResponse] = await Promise.all([
+                fetch(categoriesUrl),
+                fetch(typesUrl)
+            ]);
+
+            if (!categoriesResponse.ok || !typesResponse.ok) {
+                throw new Error('Failed to fetch categories or types');
+            }
+
+            const categoriesData = await categoriesResponse.json();
+            const typesData = await typesResponse.json();
+
+            setCategories(categoriesData);
+            setTypes(typesData);
+
+        } catch (error) {
+            console.error("Error fetching predefined lists:", error);
+        }
+    };
+    fetchLists();
+  }, []);
+
+
   useEffect(() => {
     const fetchDescription = async () => {
       if (linkUrl) {
@@ -64,7 +84,7 @@ function Button({ onDataSent }) {
   
     const debounceFetch = setTimeout(() => {
       fetchDescription();
-    }, 500); // Debounce to avoid fetching on every keypress
+    }, 500);
   
     return () => clearTimeout(debounceFetch);
   }, [linkUrl]);
@@ -91,6 +111,7 @@ function Button({ onDataSent }) {
         name: name,
         description: description,
         category: selectedCategories,
+        types: selectedTypes,
         links: linksArray,
         imageUrl: imageUrl,
       };
@@ -117,6 +138,7 @@ function Button({ onDataSent }) {
       setName('');
       setDescription('');
       setSelectedCategories([]);
+      setSelectedTypes([]);
       setLinkUrl('');
       setImageUrl('');
       setShowManualDescriptionInput(false);
@@ -137,11 +159,16 @@ function Button({ onDataSent }) {
     });
   };
 
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
 
-  
+  const handleTypeClick = (type) => {
+    if (selectedTypes.includes(type)) {
+        setSelectedTypes([]);
+    } else {
+        setSelectedTypes([type]);
+    }
+};
+
+
   return (
     <>
       <div className="buttonContainer">
@@ -197,18 +224,18 @@ function Button({ onDataSent }) {
             <div className="dropdown-app-container">
               <div className="category-select-container">
                 <button 
-                  onClick={toggleDropdown}
+                  onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
                   className="dropdown-button"
                   type="button"
                 >
                   <span>Category</span>
                   &nbsp;
-                  <IoChevronDown className={`dropdown-icon ${isDropdownOpen ? 'rotated' : ''}`} />
+                  <IoChevronDown className={`dropdown-icon ${isCategoryDropdownOpen ? 'rotated' : ''}`} />
                 </button>
         
-                {isDropdownOpen && (
+                {isCategoryDropdownOpen && (
                   <div className="category-pills-container dropdown-menu">
-                    {predefinedCategories.map((category) => (
+                    {categories.map((category) => (
                       <button
                         key={category}
                         type="button"
@@ -216,6 +243,35 @@ function Button({ onDataSent }) {
                         onClick={() => handleCategoryClick(category)}
                       >
                         {category}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="dropdown-app-container">
+              <div className="category-select-container">
+                <button
+                  onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+                  className="dropdown-button"
+                  type="button"
+                >
+                  <span>Type</span>
+                  &nbsp;
+                  <IoChevronDown className={`dropdown-icon ${isTypeDropdownOpen ? 'rotated' : ''}`} />
+                </button>
+                
+                {isTypeDropdownOpen && (
+                  <div className="category-pills-container dropdown-menu">
+                    {types.map((type) => (
+                      <button
+                        key={type}
+                        type="button"
+                        className={`category-pill ${selectedTypes.includes(type) ? 'selected' : ''}`}
+                        onClick={() => handleTypeClick(type)}
+                      >
+                        {type}
                       </button>
                     ))}
                   </div>

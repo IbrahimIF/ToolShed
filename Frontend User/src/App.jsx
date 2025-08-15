@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import SearchBar from './Components/Search/search-bar';
 import ToolGrid from './Components/Tools/toolgrid';
 import ToolShed from './assets/toolshed.png';
-import { categories } from './Components/data/toolsData';
 import './App.css'
 
 const BACKEND_API_URL = 'https://toolshed-3mss.onrender.com';
@@ -11,7 +10,10 @@ const LOCAL_BACKEND_URL = 'http://localhost:3001';
 function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
+  const [selectedType, setSelectedType] = useState('All');
   const [showFilterOptions, setShowFilterOptions] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [types, setTypes] = useState([]);
   const [tools, setTools] = useState([]);
   const [loading, setLoading] = useState(true); 
   const [error, setError] = useState(null);
@@ -28,41 +30,61 @@ function App() {
     return await response.json();
   };
 
-  useEffect(() => {
-    const fetchTools = async () => {
-      setLoading(true);
-      setError(null);
 
+  const fetchLists = async (baseUrl) => {
+    const categoriesUrl = `${baseUrl}/api/lists/categories`;
+    const typesUrl = `${baseUrl}/api/lists/types`;
+
+    const [categoriesResponse, typesResponse] = await Promise.all([
+      fetch(categoriesUrl),
+      fetch(typesUrl)
+    ]);
+
+    const categoriesData = await categoriesResponse.json();
+    const typesData = await typesResponse.json();
+
+    return { categoriesData, typesData };
+  };
+
+  useEffect(() => {
+    const fetchAllData = async (urlToUse) => {
       try {
-        const data = await fetchToolsFromUrl(BACKEND_API_URL);
-        setTools(data);
-        console.log('Successfully fetched tools from Render.com');
-      } catch (renderError) {
-        console.warn('Failed to fetch from Render.com, attempting localhost:', renderError);
-        try {
-          const data = await fetchToolsFromUrl(LOCAL_BACKEND_URL);
-          setTools(data);
-          console.log('Successfully fetched tools from localhost');
-        } catch (localhostError) {
-          console.error('Failed to fetch from both Render.com and localhost:', localhostError);
-          setError('Failed to load tools. Please check your internet connection or server status.');
-        }
-      } finally {
+        const [toolsData, listsData] = await Promise.all([
+          fetchToolsFromUrl(urlToUse),
+          fetchLists(urlToUse)
+        ]);
+
+        setTools(toolsData);
+        setCategories(['All', ...listsData.categoriesData]);
+        setTypes(['All', ...listsData.typesData]);
         setLoading(false);
+        setError(null);
+        console.log('Successfully fetched all data!');
+      } catch (error) {
+        console.error('Failed to fetch from current URL:', error);
+        throw error;
       }
     };
 
-    fetchTools();
+    const attemptFetch = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        await fetchAllData(BACKEND_API_URL);
+      } catch (renderError) {
+        console.warn('Failed to fetch from Render.com, attempting localhost...');
+        try {
+          await fetchAllData(LOCAL_BACKEND_URL);
+        } catch (localhostError) {
+          console.error('Failed to fetch from both Render.com and localhost:', localhostError);
+          setLoading(false);
+          setError('Failed to load tools. Please check your internet connection or server status.');
+        }
+      }
+    };
+    
+    attemptFetch();
   }, []);
-
-  const filteredTools = tools.filter(tool => {
-      const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                            (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
-      const matchesCategory = selectedCategory === 'All' ||
-                            (tool.category && tool.category.includes(selectedCategory));
-      return matchesSearch && matchesCategory;
-  });
-
 
   const handleScroll = () => {
     const offset = window.scrollY;
@@ -81,6 +103,23 @@ useEffect(() => {
 }, []);
 
 
+  const filteredTools = tools.filter(tool => {
+      const lowerSearchTerm = searchTerm.toLowerCase();
+
+      const matchesSearch = tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                            (tool.description && tool.description.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      const matchesCategoryBySearch = tool.category.some(cat => cat.toLowerCase().includes(lowerSearchTerm));
+
+      const matchesCategoryByFilter = selectedCategory === 'All' ||
+                                    (tool.category && tool.category.includes(selectedCategory));
+
+      const matchesTypeBySearch = tool.types.some(type => type.toLowerCase().includes(lowerSearchTerm));
+
+      return matchesCategoryByFilter && (matchesSearch || matchesCategoryBySearch || matchesTypeBySearch);
+  });
+
+
   return (
       <div className="main-container">
           <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center"> <img src={ToolShed} className="logo" alt="Toolshed logo" /> ToolShed </h1>
@@ -89,9 +128,12 @@ useEffect(() => {
               setSearchTerm={setSearchTerm}
               selectedCategory={selectedCategory}
               setSelectedCategory={setSelectedCategory}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
               showFilterOptions={showFilterOptions}
               setShowFilterOptions={setShowFilterOptions}
               categories={categories}
+              types={types}
               isScrolled={scrolled}
           />
         {loading && <p className="loading-message">Loading tools...</p>}

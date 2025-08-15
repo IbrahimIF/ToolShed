@@ -24,13 +24,16 @@ function ToolGrid({ filteredTools }) {
                     </div>
                     <div className="card-content">
                         <h3 className="card-title">{tool.name}</h3>
+                        {tool.types && tool.types.length > 0 && (
+                                <span className="card-type-title"> ({tool.types[0]})</span>
+                        )}
                         <p className="card-description">
                             {tool.description || 'No description available.'}
                         </p>
                         {tool.category && tool.category.length > 0 && (
                             <div className="card-category-list">
-                                {tool.category.map((cat, index) => (
-                                    <span key={index} className="card-category-item">
+                                {tool.category.map((cat) => (
+                                    <span key={cat} className="card-category-item">
                                         {cat}
                                     </span>
                                 ))}
@@ -55,6 +58,7 @@ ToolGrid.propTypes = {
             name: PropTypes.string.isRequired,
             description: PropTypes.string,
             category: PropTypes.arrayOf(PropTypes.string),
+            types: PropTypes.arrayOf(PropTypes.string),
             links: PropTypes.arrayOf(
                 PropTypes.shape({
                     url: PropTypes.string.isRequired,

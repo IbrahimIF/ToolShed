@@ -12,6 +12,24 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// For all to get all collections - categories and types
+app.get('/api/lists/:collectionName', async (req, res) => {
+  try {
+      const { collectionName } = req.params;
+      if (!collectionName) {
+          return res.status(400).json({ message: 'Collection name is required.' });
+      }
+
+      const snapshot = await db.collection(collectionName).get();
+      const data = snapshot.docs.map(doc => doc.data().name);
+      res.status(200).json(data);
+  } catch (error) {
+      console.error(`Error fetching list from ${req.params.collectionName}:`, error);
+      res.status(500).json({ message: 'Failed to fetch list.', error: error.message });
+  }
+});
+
+
 // For admin to add/update data
 app.post('/admin/data/:collectionName', async (req, res) => {
   try {
