@@ -113,7 +113,7 @@ useEffect(() => {
       const matchesCategoryByFilter = selectedCategory === 'All' ||
                                     (tool.category && tool.category.includes(selectedCategory));
 
-      const matchesTypeBySearch = tool.types && tool.type.some(type => type.toLowerCase().includes(lowerSearchTerm));
+      const matchesTypeBySearch = tool.types && tool.types.some(type => type.toLowerCase().includes(lowerSearchTerm));
 
       return matchesCategoryByFilter && (matchesSearch || matchesCategoryBySearch || matchesTypeBySearch);
   });
