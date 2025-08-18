@@ -169,6 +169,16 @@ function Button({ onDataSent }) {
 };
 
 
+const handleCategoryDropdownToggle = () => {
+  setIsCategoryDropdownOpen(prevState => !prevState);
+  setIsTypeDropdownOpen(false); // Close the other dropdown
+};
+
+const handleTypeDropdownToggle = () => {
+  setIsTypeDropdownOpen(prevState => !prevState);
+  setIsCategoryDropdownOpen(false); // Close the other dropdown
+};
+
   return (
     <>
       <div className="buttonContainer">
@@ -207,7 +217,7 @@ function Button({ onDataSent }) {
                 </div>
               ) : showManualDescriptionInput ? (
                   <textarea
-                    className="input"
+                    className="description-input"
                     rows="4"
                     placeholder="Couldn't automatically fetch description. Please enter manually."
                     value={description}
@@ -222,24 +232,24 @@ function Button({ onDataSent }) {
             </div>
 
             <div className="dropdown-app-container">
-              <div className="category-select-container">
+              <div className="select-container">
                 <button 
-                  onClick={() => setIsCategoryDropdownOpen(!isCategoryDropdownOpen)}
+                  onClick={handleCategoryDropdownToggle}
                   className="dropdown-button"
                   type="button"
                 >
-                  <span>Category</span>
+                  <span className="dropdown-text">Category</span>
                   &nbsp;
                   <IoChevronDown className={`dropdown-icon ${isCategoryDropdownOpen ? 'rotated' : ''}`} />
                 </button>
         
                 {isCategoryDropdownOpen && (
-                  <div className="category-pills-container dropdown-menu">
+                  <div className="pills-container category-container dropdown-menu">
                     {categories.map((category) => (
                       <button
                         key={category}
                         type="button"
-                        className={`category-pill ${selectedCategories.includes(category) ? 'selected' : ''}`}
+                        className={`pill ${selectedCategories.includes(category) ? 'selected' : ''}`}
                         onClick={() => handleCategoryClick(category)}
                       >
                         {category}
@@ -251,24 +261,24 @@ function Button({ onDataSent }) {
             </div>
 
             <div className="dropdown-app-container">
-              <div className="category-select-container">
+              <div className="select-container">
                 <button
-                  onClick={() => setIsTypeDropdownOpen(!isTypeDropdownOpen)}
+                  onClick={handleTypeDropdownToggle}
                   className="dropdown-button"
                   type="button"
                 >
-                  <span>Type</span>
+                  <span className="dropdown-text">Type</span>
                   &nbsp;
                   <IoChevronDown className={`dropdown-icon ${isTypeDropdownOpen ? 'rotated' : ''}`} />
                 </button>
                 
                 {isTypeDropdownOpen && (
-                  <div className="category-pills-container dropdown-menu">
+                  <div className="pills-container type-container dropdown-menu">
                     {types.map((type) => (
                       <button
                         key={type}
                         type="button"
-                        className={`category-pill ${selectedTypes.includes(type) ? 'selected' : ''}`}
+                        className={`pill ${selectedTypes.includes(type) ? 'selected' : ''}`}
                         onClick={() => handleTypeClick(type)}
                       >
                         {type}

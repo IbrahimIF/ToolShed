@@ -13,11 +13,21 @@
     background: #faf4f2;
     border: 2px solid #525252;
     border-radius: 15px;
-    max-height: 400px;
+    max-height: 250px;
     width: 70vh;
     transition: 1s;
     padding: 10px;
     margin: 20px;
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none;
+}
+
+.displayContainer::-webkit-scrollbar {
+    display: none;
+}
+
+.displayArea::-webkit-scrollbar {
+    display: none;
 }
 
 .loadingContainer{
