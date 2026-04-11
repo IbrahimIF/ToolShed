@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import SearchBar from './Components/Search/search-bar';
 import ToolGrid from './Components/Tools/toolgrid';
 import Infos from './Components/Info/info';
@@ -123,7 +124,16 @@ useEffect(() => {
   return (
       <div className="main-container">
           <Infos />
-          <h1 className="text-4xl font-bold text-amber-300 mb-8 text-center"> <img src={ToolShed} className="logo" alt="Toolshed logo" /> ToolShed </h1>
+          <motion.header
+            className="app-header"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img src={ToolShed} className="header-logo" alt="ToolShed logo" />
+            <h1>ToolShed</h1>
+            <p>A curated collection of tools, resources and utilities all organised and searchable.</p>
+          </motion.header>
           <SearchBar
               searchTerm={searchTerm}
               setSearchTerm={setSearchTerm}
